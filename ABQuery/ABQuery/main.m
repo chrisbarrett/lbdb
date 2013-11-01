@@ -24,7 +24,6 @@
 #import <AddressBook/AddressBook.h>
 
 int main (int argc, const char *argv[]) {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     ABAddressBook *book = [ABAddressBook sharedAddressBook];
     ABSearchElement *firstNameSearch, *lastNameSearch, *emailSearch, *search, *nickSearch, *organizationSearch;
     NSArray *searchTerms;
@@ -74,15 +73,12 @@ int main (int argc, const char *argv[]) {
         NSString *fullName = [NSString stringWithFormat:@"%@ %@", [[person valueForProperty:kABFirstNameProperty] description], [[person valueForProperty:kABLastNameProperty] description]];
       
         ABMultiValue *emails = [person valueForProperty:kABEmailProperty];
-        int count = [emails count];
+        int count = (int)[emails count];
         int i;
         for (i = 0; i < count; i++) {
             NSString *email = [emails valueAtIndex:i];
-            printf("%s\t%s\t(AddressBook)\n", [email cStringUsingEncoding:NSASCIIStringEncoding], [fullName UTF8String]);
+            printf("%s\t%s\t(AddressBook)\n", [email UTF8String], [fullName UTF8String]);
       }
     }
-
-    [pool release];
-
     return 0;
 }
